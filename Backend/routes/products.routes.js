@@ -6,10 +6,10 @@ const {
   deleteProduct,
   getProduct,
 } = require("../controllers/product.controllers");
-const router = Router();
+const productRouter = Router();
 
-router.get("/products", getProducts);
-router.post("/product/new", createProduct);
-router.patch("/product/:id", updateProduct).delete("/product/:id", deleteProduct).get("/product/:id", getProduct);
+productRouter.get("/", getProducts);
+productRouter.post("/product/new", createProduct);
+productRouter.patch("/product/:id", updateProduct).delete("/product/:id", deleteProduct).get("/product/:id", getProduct);
 
-module.exports = router;
+module.exports = productRouter;

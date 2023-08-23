@@ -7,13 +7,15 @@ process.on("uncaughtException", (err) => {
 
 const express = require("express");
 const cors = require("cors");
-const router = require("./routes/products.routes");
+const productRouter = require("./routes/products.routes");
+const userRouter = require("./routes/users.routes");
 const connect = require("./config/db");
 const errorFunction = require("./middleware/error");
 const server = express();
 server.use(express.json());
 server.use(cors());
-server.use("/mern", router);
+server.use("/products", productRouter);
+server.use("/user", userRouter);
 server.use(errorFunction);
 require("dotenv").config();
 port = process.env.PORT;

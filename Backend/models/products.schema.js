@@ -67,6 +67,6 @@ const productData = new mongoose.Schema({
   },
 });
 
-const model = mongoose.model("MERN", productData);
+const product = mongoose.model("product", productData);
 
-module.exports = model;
+module.exports = product;
