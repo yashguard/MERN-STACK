@@ -37,6 +37,16 @@ class ApiFeatures {
     this.query = this.query.find(JSON.parse(queryString));
     return this;
   }
+
+  paginations(displayProducts) {
+    let currentPage = Number(this.queryStr.page) || 1;
+
+    let skip = displayProducts * (currentPage - 1);
+
+    this.query = this.query.limit(displayProducts).skip(skip);
+
+    return this;
+  }
 }
 
 module.exports = ApiFeatures;
