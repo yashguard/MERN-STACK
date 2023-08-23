@@ -16,7 +16,8 @@ const productData = new mongoose.Schema({
     maxLength: [6, "Price cannot exceed 6 characters"],
   },
   rating: {
-    typr: Number,
+    type: Number,
+    default: 0,
   },
   images: [
     {
