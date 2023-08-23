@@ -26,7 +26,15 @@ class ApiFeatures {
     arrayRemoveFields.forEach((key) => {
       delete queryCopy[key];
     });
-    this.query = this.query.find(queryCopy);
+
+    // Filter For Price
+    let queryString = JSON.stringify(queryCopy);
+    queryString = queryString.replace(
+      /\b(lt|lte|gt|gte)\b/g,
+      (key) => `$${key}`
+    );
+
+    this.query = this.query.find(JSON.parse(queryString));
     return this;
   }
 }
