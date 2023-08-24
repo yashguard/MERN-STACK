@@ -6,13 +6,16 @@ process.on("uncaughtException", (err) => {
 });
 
 const express = require("express");
+const server = express();
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const productRouter = require("./routes/products.routes");
 const userRouter = require("./routes/users.routes");
 const connect = require("./config/db");
 const errorFunction = require("./middleware/error");
-const server = express();
 server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
+server.use(cookieParser());
 server.use(cors());
 server.use("/products", productRouter);
 server.use("/user", userRouter);

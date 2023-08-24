@@ -3,6 +3,7 @@ const user = require("../models/userSchema");
 const ErrorHandler = require("../utils/errorhandler");
 const sendToken = require("../utils/jstToken");
 
+// Sign up user
 const registerUser = catchAsyncError(async (req, res) => {
   let { name, email, password } = req.body;
 
@@ -18,6 +19,7 @@ const registerUser = catchAsyncError(async (req, res) => {
   sendToken(User, 201, res);
 });
 
+// Login user
 const loginUser = catchAsyncError(async (req, res, next) => {
   let { email, password } = req.body;
 
@@ -43,4 +45,13 @@ const loginUser = catchAsyncError(async (req, res, next) => {
   sendToken(User, 200, res);
 });
 
-module.exports = { registerUser, loginUser };
+// Logout user
+const logoutUser = catchAsyncError(async (req, res) => {
+  res.cookie("token", null, { expires: new Date(Date.now()), httpOnly: true });
+  res.status(201).json({
+    success: true,
+    message: "User logged out successfully",
+  });
+});
+
+module.exports = { registerUser, loginUser, logoutUser };
