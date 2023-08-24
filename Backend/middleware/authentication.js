@@ -17,4 +17,17 @@ const isAuthenticated = catchAsyncError(async (req, res, next) => {
   next();
 });
 
-module.exports = isAuthenticated;
+const authorizqRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.User.role)) {
+      return next(
+        new ErrorHandler(
+          `Role ${req.User.role} is not allowed to access this resource`, 403
+        )
+      );
+    }
+    next();
+  };
+};
+
+module.exports = { isAuthenticated, authorizqRoles };

@@ -6,14 +6,32 @@ const {
   deleteProduct,
   getProduct,
 } = require("../controllers/product.controllers");
-const isAuthenticated = require("../middleware/authentication");
+const {
+  isAuthenticated,
+  authorizqRoles,
+} = require("../middleware/authentication");
 const productRouter = Router();
 
-productRouter.get("/", isAuthenticated, getProducts);
-productRouter.post("/product/new", createProduct);
+productRouter.get("/", getProducts);
+productRouter.post(
+  "/product/new",
+  isAuthenticated,
+  authorizqRoles("admin"),
+  createProduct
+);
 productRouter
-  .patch("/product/:id", updateProduct)
-  .delete("/product/:id", deleteProduct)
+  .patch(
+    "/product/:id",
+    isAuthenticated,
+    authorizqRoles("admin"),
+    updateProduct
+  )
+  .delete(
+    "/product/:id",
+    isAuthenticated,
+    authorizqRoles("admin"),
+    deleteProduct
+  )
   .get("/product/:id", getProduct);
 
 module.exports = productRouter;
