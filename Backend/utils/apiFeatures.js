@@ -14,6 +14,7 @@ class ApiFeatures {
         }
       : {};
     this.query = this.query.find({ ...keyword });
+    
     return this;
   }
 
@@ -35,6 +36,7 @@ class ApiFeatures {
     );
 
     this.query = this.query.find(JSON.parse(queryString));
+
     return this;
   }
 

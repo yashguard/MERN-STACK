@@ -3,6 +3,7 @@ const user = require("../models/userSchema");
 const ErrorHandler = require("../utils/errorhandler");
 const sendToken = require("../utils/jstToken");
 const sendEmail = require("../utils/sendEmail");
+const crypto = require("crypto");
 require("dotenv").config();
 
 // Sign up user
@@ -71,7 +72,7 @@ const forgetPassword = catchAsyncError(async (req, res, next) => {
 
   let url = `${req.protocol}://${req.get(
     "host"
-  )}/user/password/reset${resetToken}`;
+  )}/user/password/reset/${resetToken}`;
 
   let message = `Your password token is :- \n\n ${url} \n\n If you have not requested this email then, ignore this email.`;
 
@@ -96,4 +97,35 @@ const forgetPassword = catchAsyncError(async (req, res, next) => {
   }
 });
 
-module.exports = { registerUser, loginUser, logoutUser, forgetPassword };
+// Reset Password
+const resetPassword = catchAsyncError(async (req, res, next) => {
+  let resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  let User = await user.findOne({
+    resetPasswordToken,
+    resetPasswordExpired: { $gt: Date.now() },
+  });
+
+  if (!User) {
+    return next(
+      new ErrorHandler("Reset password is invalid or has been expires", 400)
+    );
+  }
+
+  if (req.body.password !== req.body.confirmpassword) {
+    return next(new ErrorHandler("Password does not match", 400));
+  }
+
+  User.password = req.body.password;
+  User.resetPasswordToken = undefined;
+  User.resetPasswordExpired = undefined;
+
+  await User.save();
+
+  sendToken(User, 200 , res);
+});
+
+module.exports = { registerUser, loginUser, logoutUser, forgetPassword, resetPassword };
