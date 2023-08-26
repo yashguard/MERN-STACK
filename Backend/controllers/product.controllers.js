@@ -59,13 +59,13 @@ const getProduct = catchAsyncError(async (req, res, next) => {
 
 // Create review or update the review
 const createReview = catchAsyncError(async (req, res) => {
-  let { productId, name, rating, comment } = req.body;
+  let { productId, rating, comment } = req.body;
 
   const review = {
     user: req.User._id,
-    name,
+    name: req.User.name,
     rating: Number(rating),
-    comment,
+    comments: comment,
   };
 
   let getProduct = await product.findById(productId);
@@ -90,11 +90,62 @@ const createReview = catchAsyncError(async (req, res) => {
 
   getProduct.reviews.forEach((rev) => {
     average += rev.rating;
-  })
+  });
 
   getProduct.ratings = average / getProduct.reviews.length;
 
   await getProduct.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
+// Get product reviews
+const getProductReview = catchAsyncError(async (req, res, next) => {
+  const getProduct = await product.findById(req.query.id);
+
+  if (!getProduct) {
+    return next(new ErrorHandler("Product not found", 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    reviews: getProduct.reviews,
+  });
+});
+
+// Delete reviews
+const deleteReview = catchAsyncError(async (req, res, next) => {
+  const getProduct = await product.findById(req.query.productId);
+
+  if (!getProduct) {
+    return next(new ErrorHandler("Product not found", 404));
+  }
+
+  let reviews = getProduct.reviews.filter(
+    (rev) => rev._id.toString() !== req.query.reviewId.toString()
+  );
+
+  let average = 0;
+
+  reviews.forEach((rev) => {
+    average += rev.rating;
+  });
+
+  let ratings = average / reviews.length;
+
+  let numOfReviews = reviews.length;
+
+  await product.findByIdAndUpdate(
+    req.query.productId,
+    { reviews, ratings, numOfReviews },
+    {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    }
+  );
 
   res.status(200).json({
     success: true,
@@ -108,4 +159,6 @@ module.exports = {
   deleteProduct,
   getProduct,
   createReview,
+  getProductReview,
+  deleteReview,
 };
