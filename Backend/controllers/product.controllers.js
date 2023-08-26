@@ -57,10 +57,55 @@ const getProduct = catchAsyncError(async (req, res, next) => {
   res.status(200).json({ success: true, getProduct });
 });
 
+// Create review or update the review
+const createReview = catchAsyncError(async (req, res) => {
+  let { productId, name, rating, comment } = req.body;
+
+  const review = {
+    user: req.User._id,
+    name,
+    rating: Number(rating),
+    comment,
+  };
+
+  let getProduct = await product.findById(productId);
+
+  let isReviewed = getProduct.reviews.find((rev) => {
+    rev.user.toString() === req.User.id.toString();
+  });
+
+  if (isReviewed) {
+    getProduct.reviews.forEach((rev) => {
+      if (rev.user.toString() === req.User.id.toString()) {
+        rev.rating = rating;
+        rev.comments = comment;
+      }
+    });
+  } else {
+    getProduct.reviews.push(review);
+    getProduct.numOfReviews = getProduct.reviews.length;
+  }
+
+  let average = 0;
+
+  getProduct.reviews.forEach((rev) => {
+    average += rev.rating;
+  })
+
+  getProduct.ratings = average / getProduct.reviews.length;
+
+  await getProduct.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
 module.exports = {
   getProducts,
   createProduct,
   updateProduct,
   deleteProduct,
   getProduct,
+  createReview,
 };

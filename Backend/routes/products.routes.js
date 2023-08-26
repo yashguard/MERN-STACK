@@ -5,6 +5,7 @@ const {
   updateProduct,
   deleteProduct,
   getProduct,
+  createReview,
 } = require("../controllers/product.controllers");
 const {
   isAuthenticated,
@@ -33,5 +34,7 @@ productRouter
     deleteProduct
   )
   .get("/product/:id", getProduct);
+
+  productRouter.patch("/review", isAuthenticated ,createReview)
 
 module.exports = productRouter;
