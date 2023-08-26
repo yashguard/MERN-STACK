@@ -161,6 +161,91 @@ const updatePassword = catchAsyncError(async (req, res, next) => {
   sendToken(User, 200, res);
 });
 
+// Update Profile
+const updateProfile = catchAsyncError(async (req, res, next) => {
+  const updateData = {
+    name: req.body.name,
+    email: req.body.email,
+  };
+
+  // We will add cloudNary later
+
+  const User = await user.findByIdAndUpdate(req.User.id, updateData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  res.status(200).json({
+    success: true,
+    User,
+  });
+});
+
+// Get All Users
+const getAllUsers = catchAsyncError(async (req, res, next) => {
+  let User = await user.find();
+
+  res.status(200).json({
+    success: true,
+    User,
+  });
+});
+
+// Get User By Id
+const getUser = catchAsyncError(async (req, res, next) => {
+  let User = await user.findById(req.params.id);
+
+  if (!User) {
+    return next(
+      new ErrorHandler(`User doesn,t exist with ID : ${req.params.id}`, 400)
+    );
+  }
+
+  res.status(200).json({
+    success: true,
+    User,
+  });
+});
+
+// Update Role Of User To Admin
+const updateUserRole = catchAsyncError(async (req, res, next) => {
+  const updateData = {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  };
+
+  const User = await user.findByIdAndUpdate(req.params.id, updateData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  res.status(200).json({
+    success: true,
+    User,
+  });
+});
+
+// Delete User
+const deleteUser = catchAsyncError(async (req, res, next) => {
+  const User = await user.findById(req.params.id);
+
+  // We will remove cloudinary later
+  if (!User) {
+    return next(
+      new ErrorHandler(`User doesn't exist with given id ${req.params.id}`)
+    );
+  }
+
+  await user.findByIdAndDelete(req.params.id);
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
 module.exports = {
   registerUser,
   loginUser,
@@ -169,4 +254,10 @@ module.exports = {
   resetPassword,
   userDetails,
   updatePassword,
+  updateProfile,
+  getAllUsers,
+  getUser,
+  updateUserRole,
+  deleteUser,
+  deleteUser,
 };
