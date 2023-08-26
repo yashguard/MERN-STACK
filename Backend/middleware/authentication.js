@@ -1,4 +1,4 @@
-const user = require("../models/userSchema");
+const user = require("../models/user.schema");
 const ErrorHandler = require("../utils/errorhandler");
 const catchAsyncError = require("./catchAsyncErrors");
 const jwt = require("jsonwebtoken");

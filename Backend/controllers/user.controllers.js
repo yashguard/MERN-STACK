@@ -1,5 +1,5 @@
 const catchAsyncError = require("../middleware/catchAsyncErrors");
-const user = require("../models/userSchema");
+const user = require("../models/user.schema");
 const ErrorHandler = require("../utils/errorhandler");
 const sendToken = require("../utils/jstToken");
 const sendEmail = require("../utils/sendEmail");
