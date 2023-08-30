@@ -4,7 +4,7 @@ import "./Footer.css";
 const Footer = () => {
   return (
     <footer id="footer" className="row align-items-center">
-      <div className="leftFooter row align-items-center col-xxl-3">
+      <div className="leftFooter row flex-column align-items-center col-xxl-3">
         <h4>DOWNLOAD OUR APP</h4>
         <p>Download App for Android and IOS mobile phone</p>
         <img src="../Image/playstore.png" alt="playstore" />
@@ -13,12 +13,11 @@ const Footer = () => {
 
       <div className="midFooter text-center col-xxl-6">
         <img src="../Image/logo.png" alt="logo" />
-        <p>High Quality is our first priority</p>
-
-        <p>Copyrights 2021 &copy; MeAbhiSingh</p>
+        <p>High quality is our first priority</p>
+        <p>Copyrights 2023 &copy; YashGuard</p>
       </div>
 
-      <div className="rightFooter row align-items-center col-xxl-3">
+      <div className="rightFooter flex-column row align-items-center col-xxl-3">
         <h4>Follow Us</h4>
         <a
           href="https://www.instagram.com/guard_yash/"

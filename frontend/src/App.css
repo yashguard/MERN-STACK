@@ -4,6 +4,7 @@
     padding: 0;
     margin: 0;
     font-family: 'Roboto', sans-serif;
+    transition: all 0.5s;
 }
 
 /* ============================ 
@@ -11,6 +12,7 @@
  ============================ */
 
  :root {
+    --main-color : #eb4034;
     --footer-color : rgb(34, 33, 33);
     --white-color : #ffffff;
     --black-color : #000000;
