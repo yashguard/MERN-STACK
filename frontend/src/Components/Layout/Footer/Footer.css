@@ -1,0 +1,66 @@
+/* ================================
+            Footer
+  ================================ */
+
+footer {
+    margin-top: 10vmax;
+    background-color: var(--footer-color);
+    color: var(--white-color);
+    padding: 50px;
+}
+
+/* ================================
+            Left Footer
+  ================================ */
+
+.leftFooter {
+    flex-direction: column;
+}
+
+.leftFooter h4 {
+    font-size: 1vmax;
+}
+
+.leftFooter p {
+    text-align: center;
+    font-size: 1.2vmax;
+}
+
+.leftFooter img {
+    width: 10vmax;
+    margin: 1vmax;
+    cursor: pointer;
+}
+
+/* ================================
+            Mid Footer
+  ================================ */
+
+.midFooter img {
+    width: 160px;
+}
+
+/* ================================
+            Right Footer
+  ================================ */
+
+.rightFooter {
+    flex-direction: column;
+}
+
+.rightFooter h4 {
+    font-size: 1.4vmax;
+    text-decoration: underline;
+}
+
+.rightFooter a {
+    text-decoration: none;
+    font-size: 1.3vmax;
+    color: var(--white-color);
+    transition: all 0.5s;
+    margin: 0.5vmax;
+}
+
+.rightFooter a:hover {
+    color: #eb4034;
+}

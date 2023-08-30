@@ -4,7 +4,7 @@ import { ReactNavbar } from "overlay-navbar";
 const Header = () => {
   const options = {
     burgerColorHover: "#eb4034",
-    logo: "./Image/logo.png",
+    logo: "../Image/logo.png",
     logoWidth: "20vmax",
     navColor1: "white",
     logoHoverSize: "10px",
