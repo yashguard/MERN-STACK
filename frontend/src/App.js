@@ -16,7 +16,9 @@ function App() {
   return (
     <>
       <Header />
-      <Routes>{/* <Route extact path="/" Component={Home} /> */}</Routes>
+      <Routes>
+        <Route extact path="/" Component={Home} />
+      </Routes>
       <Footer />
     </>
   );
