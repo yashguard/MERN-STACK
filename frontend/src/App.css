@@ -23,11 +23,6 @@
       Reusable Tools
  ============================ */
 
-.container {
-    max-width: 1320px;
-    margin: 0 auto;
-}
-
 .row {
     display: flex;
     flex-wrap: wrap;

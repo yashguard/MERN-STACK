@@ -14,7 +14,10 @@ const Product = (props) => {
   let { name, images, price, _id } = props;
   return (
     <>
-      <Link className="col-xxl-3" to={_id}>
+      <Link
+        className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-3"
+        to={_id}
+      >
         <div className="productCard">
           <div className="productImage">
             <img src={images[0].url} alt={name} />
