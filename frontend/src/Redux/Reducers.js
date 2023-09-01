@@ -5,7 +5,7 @@ import {
   ERROR_NULL,
 } from "./ActionType";
 
-const initialState = { products: [] };
+const initialState = { products: [], loading: true };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -35,6 +35,6 @@ export const reducer = (state = initialState, action) => {
       };
 
     default:
-      return {...state};
+      return { ...state };
   }
 };

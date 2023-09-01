@@ -3,7 +3,7 @@
  ============================ */
 
 .banner {
-    background-color: blue;
+    background-image: url("../../../public/Image/cover.jfif");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -37,7 +37,7 @@
 }
 
 .banner a button:hover {
-    background-color: rgba(255, 255, 255, 0);
+    background-color: var(--white-color);
     color: var(--white-color);
 }
 
@@ -45,7 +45,7 @@
     content: "";
     width: 100vw;
     height: 100vmin;
-    background-color: #ffffff;
+    background-color: var(--white-color);
     position: absolute;
     top: 0%;
     left: 0;
@@ -57,11 +57,11 @@
     text-align: center;
     font-family: Roboto;
     font-size: 1.4vmax;
-    border-bottom: 1px solid rgba(21, 21, 21, 0.5);
+    border-bottom: 1px solid var(--border-color);
     width: 20vmax;
     padding: 1vmax;
     margin: 5vmax auto;
-    color: rgb(0, 0, 0, 0.7);
+    color: var(--black-color);
 }
 
 /* ============================ 
@@ -70,7 +70,7 @@
 
 
 .productCard {
-    color: rgb(48, 48, 48);
+    color: var(--productCard-font-color);
     margin: 10px;
     border-radius: 5px;
     overflow: hidden;
@@ -92,6 +92,6 @@
 }
 
 .productCard:hover {
-    box-shadow: 0 0 5px rgba(15, 15, 15, 0.26);
+    box-shadow: 0 0 5px var(--border-color);
     transform: translateY(-1vmax);
 }
