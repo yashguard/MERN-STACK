@@ -1,0 +1,18 @@
+.loading {
+    height: 100vh;
+    background-color: var(--white-color);
+}
+
+.loading>div {
+    width: 200px;
+    height: 200px;
+    border-bottom: 5px solid var(--border-color);
+    border-radius: 100%;
+    animation: loadingRotate 800ms linear infinite;
+}
+
+@keyframes loadingRotate {
+    to {
+        transform: rotateZ(-360deg);
+    }
+}

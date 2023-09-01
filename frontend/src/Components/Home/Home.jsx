@@ -1,20 +1,33 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { CgMouse } from "react-icons/cg";
+import axios from "axios";
 import "./Home.css";
 import Product from "./Product";
 import Metadata from "../Layout/Metadata";
+import { useDispatch, useSelector } from "react-redux";
+import { ALLPRODUCTSUCCESS } from "../../Redux/Actions";
 
 const Home = () => {
-  const products = {
-    name: "Blue Tshirt",
-    images: [
-      {
-        url: "https://i.ibb.co/DRST11n/1.webp",
-      },
-    ],
-    price: "₹10000",
-    _id: "YashGuard",
+  let dispatchProducts = useDispatch();
+  let reduxProducts = useSelector((store) => store.products);
+  const getProducts = async () => {
+    await axios
+      .get("http://localhost:8010/products")
+      .then((res) => {
+        addProducts(res.data.products);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
+  const addProducts = async (products) => {
+    dispatchProducts(ALLPRODUCTSUCCESS(products));
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
   return (
     <Fragment>
       <Metadata title="ECOMMERCE" />
@@ -31,16 +44,10 @@ const Home = () => {
 
       <h2 className="homeHeading">Featured Products</h2>
 
-      <div className="container row justify-content-center" id="container">
-        <Product {...products} />
-        <Product {...products} />
-        <Product {...products} />
-        <Product {...products} />
-        <Product {...products} />
-        <Product {...products} />
-        <Product {...products} />
-        <Product {...products} />
-      </div>
+      <div
+        className="container row justify-content-center"
+        id="container"
+      ></div>
     </Fragment>
   );
 };

@@ -12,13 +12,14 @@ const createProduct = catchAsyncError(async (req, res) => {
 
 // Get Products ==> User
 const getProducts = catchAsyncError(async (req, res) => {
-  let displayProducts = 5;
+  let displayProducts = 8;
+  let countProduct = await product.count();
   let apiFeatures = new ApiFeatures(product.find(), req.query)
     .search()
     .filter()
     .paginations(displayProducts);
   let products = await apiFeatures.query;
-  res.status(200).json({ success: true, products });
+  res.status(200).json({ success: true, countProduct, products });
 });
 
 // Update Product ==> Admin
@@ -50,7 +51,6 @@ const deleteProduct = catchAsyncError(async (req, res, next) => {
 // Get Product Details As Per Id
 const getProduct = catchAsyncError(async (req, res, next) => {
   let getProduct = await product.findById(req.params.id);
-  // let countProduct = product.countDocuments();
   if (!getProduct) {
     return next(new ErrorHandler("Product not found", 404));
   }

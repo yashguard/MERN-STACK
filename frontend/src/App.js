@@ -6,6 +6,7 @@ import Header from "./Components/Layout/Header/Header.jsx";
 import Footer from "./Components/Layout/Footer/Footer";
 import Home from "./Components/Home/Home.jsx";
 import { Route, Routes } from "react-router-dom";
+import Loader from "./Components/Layout/Loader/Loader";
 
 function App() {
   useEffect(() => {
@@ -15,11 +16,7 @@ function App() {
   }, []);
   return (
     <>
-      <Header />
-      <Routes>
-        <Route extact path="/" Component={Home} />
-      </Routes>
-      <Footer />
+      <Loader />
     </>
   );
 }
