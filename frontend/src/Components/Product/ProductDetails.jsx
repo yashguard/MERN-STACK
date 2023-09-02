@@ -22,24 +22,7 @@ const ProductDetails = () => {
   let dispatchProducts = useDispatch();
   let { product, loading, error } = useSelector((state) => state);
   let params = useParams();
-  const [quantity, setQuantity] = useState(1);
-  const [open, setOpen] = useState(false);
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
-
-  const increaseQuantity = () => {
-    if (product.Stock <= quantity) return;
-
-    const qty = quantity + 1;
-    setQuantity(qty);
-  };
-
-  const decreaseQuantity = () => {
-    if (1 >= quantity) return;
-
-    const qty = quantity - 1;
-    setQuantity(qty);
-  };
+  let [quantity, setQuantity] = useState(1);
 
   const getProductDetails = async () => {
     dispatchProducts(PRODUCTDETAILSREQUEST());
@@ -49,15 +32,27 @@ const ProductDetails = () => {
         getProduct(res.data.getProduct);
       })
       .catch((err) => {
-        catchError(err.message);
+        catchErrors(err.message);
       });
+  };
+
+  const increaseQuantity = () => {
+    if (product.Stock <= quantity) return;
+    const qty = quantity + 1;
+    setQuantity(qty);
+  };
+
+  const decreaseQuantity = () => {
+    if (1 >= quantity) return;
+    const qty = quantity - 1;
+    setQuantity(qty);
   };
 
   const getProduct = (product) => {
     dispatchProducts(PRODUCTDETAILSSUCCESS(product));
   };
 
-  const catchError = (err) => {
+  const catchErrors = (err) => {
     dispatchProducts(PRODUCTDETAILSFAIL(err));
   };
 
@@ -76,27 +71,7 @@ const ProductDetails = () => {
     dispatchProducts(ERRORNULL());
   }
 
-  useEffect(() => {
-    getProductDetails();
-  }, []);
-
-  function Arrows(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          display: "block",
-          background: "black",
-          color: "black",
-        }}
-        onClick={onClick}
-      />
-    );
-  }
-
-  let settings = {
+  const settings = {
     dots: true,
     infinite: true,
     speed: 800,
@@ -105,8 +80,6 @@ const ProductDetails = () => {
     initialSlide: 0,
     autoplay: true,
     autoplaySpeed: 4000,
-    // nextArrow: <Arrows />,
-    // prevArrow: <Arrows />,
   };
 
   const options = {
@@ -118,6 +91,10 @@ const ProductDetails = () => {
     isHalf: true,
   };
 
+  useEffect(() => {
+    getProductDetails();
+  }, []);
+
   return (
     <Fragment>
       {loading ? (
@@ -126,13 +103,13 @@ const ProductDetails = () => {
         <Fragment>
           <Metadata title={`${product.name} -- ECOMMERCE`} />
           <div className="container">
-            <div className="ProductDetails row align-items-center">
-              <div className="productImages col-xxl-4">
+            <div className="ProductDetails row align-items-center justify-content-center">
+              <div className="productImages col-xs-8 col-sm-8 col-md-6 col-lg-4 col-xl-4 col-xxl-4">
                 <div className="productImage">
                   <Slider {...settings}>
                     {product.images &&
                       product.images.map((item, i) => (
-                        <div>
+                        <div key={i}>
                           <img
                             className="CarouselImage"
                             key={i}
@@ -144,7 +121,7 @@ const ProductDetails = () => {
                   </Slider>
                 </div>
               </div>
-              <div className="productContents col-xxl-8">
+              <div className="productContents col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 col-xxl-8">
                 <div className="details row justify-content-between">
                   <div className="detailsBlock-1">
                     <h2>{product.name}</h2>

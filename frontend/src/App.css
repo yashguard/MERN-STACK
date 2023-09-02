@@ -23,6 +23,7 @@
     --span-reviews: rgba(0, 0, 0, 0.699);
     --price-color : rgba(17, 17, 17, 0.795);
 }
+
 /* ============================ 
       Reusable Tools
  ============================ */
@@ -79,8 +80,8 @@ input[type="number"] {
 }
 
 .greenColor {
-  color: green !important;
+  color: green;
 }
 .redColor {
-  color: red !important;
+  color: red;
 }
