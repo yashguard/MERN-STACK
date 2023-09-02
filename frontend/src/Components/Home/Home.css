@@ -37,8 +37,7 @@
 }
 
 .banner a button:hover {
-    background-color: var(--white-color);
-    color: var(--white-color);
+    background-color: transparent;
 }
 
 .banner::after {
@@ -47,7 +46,7 @@
     height: 100vmin;
     background-color: var(--white-color);
     position: absolute;
-    top: 0%;
+    top: 0;
     left: 0;
     clip-path: polygon(100% 68%, 0 100%, 100% 100%);
     max-width: 100%;

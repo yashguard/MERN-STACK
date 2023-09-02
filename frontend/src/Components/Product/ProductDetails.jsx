@@ -13,19 +13,19 @@ import Loader from "../Layout/Loader/Loader";
 import ReactStars from "react-rating-stars-component";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./ProductDetails.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ReviewCard from "./ReviewCard";
+import "./ProductDetails.css";
 
 const ProductDetails = () => {
-  let dispatchProducts = useDispatch();
+  let dispatchProduct = useDispatch();
   let { product, loading, error } = useSelector((state) => state);
   let params = useParams();
   let [quantity, setQuantity] = useState(1);
 
   const getProductDetails = async () => {
-    dispatchProducts(PRODUCTDETAILSREQUEST());
     await axios
       .get(`http://localhost:8010/products/product/${params.id}`)
       .then((res) => {
@@ -49,11 +49,11 @@ const ProductDetails = () => {
   };
 
   const getProduct = (product) => {
-    dispatchProducts(PRODUCTDETAILSSUCCESS(product));
+    dispatchProduct(PRODUCTDETAILSSUCCESS(product));
   };
 
   const catchErrors = (err) => {
-    dispatchProducts(PRODUCTDETAILSFAIL(err));
+    dispatchProduct(PRODUCTDETAILSFAIL(err));
   };
 
   if (error) {
@@ -68,7 +68,7 @@ const ProductDetails = () => {
       theme: "dark",
     });
     // Clearing Errors
-    dispatchProducts(ERRORNULL());
+    dispatchProduct(ERRORNULL());
   }
 
   const settings = {
@@ -114,7 +114,7 @@ const ProductDetails = () => {
                             className="CarouselImage"
                             key={i}
                             src={item.url}
-                            alt={`${i} Slide`}
+                            alt={`${i + 1} Slide`}
                           />
                         </div>
                       ))}
@@ -165,9 +165,21 @@ const ProductDetails = () => {
                 </div>
               </div>
             </div>
+            <h3 className="reviewsHeading">REVIEWS</h3>
+            {product.reviews && product.reviews[0] ? (
+              <div className="reviews">
+                {product.reviews &&
+                  product.reviews.map((review) => (
+                    <ReviewCard key={review._id} review={review} />
+                  ))}
+              </div>
+            ) : (
+              <p className="noReviews">No Reviews Yet</p>
+            )}
           </div>
         </Fragment>
       )}
+      <ToastContainer />
     </Fragment>
   );
 };

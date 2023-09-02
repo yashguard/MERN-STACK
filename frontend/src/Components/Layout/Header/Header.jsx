@@ -35,9 +35,9 @@ const Header = () => {
     cartIconMargin: "1vmax",
   };
   return (
-    <header>
+    <div>
       <ReactNavbar {...options} />
-    </header>
+    </div>
   );
 };
 
