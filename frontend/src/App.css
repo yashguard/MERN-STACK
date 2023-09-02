@@ -12,15 +12,17 @@
       Roots
  ============================ */
 
- :root {
-    --main-color : #eb4034;
-    --footer-color : rgb(34, 33, 33);
-    --white-color : #ffffff;
-    --black-color : #000000;
-    --border-color : rgba(0, 0, 0, 0.719);
-    --productCard-font-color : rgb(48, 48, 48);
- }
-
+:root {
+    --main-color: #eb4034;
+    --footer-color: rgb(34, 33, 33);
+    --white-color: #ffffff;
+    --black-color: #000000;
+    --border-color: rgba(0, 0, 0, 0.719);
+    --border-color-2: rgba(0, 0, 0, 0.205);
+    --productCard-font-color: rgb(48, 48, 48);
+    --span-reviews: rgba(0, 0, 0, 0.699);
+    --price-color : rgba(17, 17, 17, 0.795);
+}
 /* ============================ 
       Reusable Tools
  ============================ */
@@ -65,6 +67,20 @@ a {
     text-align: center;
 }
 
-.padding-0 {
-    padding: 0;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.greenColor {
+  color: green !important;
+}
+.redColor {
+  color: red !important;
 }

@@ -16,7 +16,7 @@ const Product = (props) => {
     <>
       <Link
         className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-3"
-        to={_id}
+        to={`/product/${_id}`}
       >
         <div className="productCard">
           <div className="productImage">

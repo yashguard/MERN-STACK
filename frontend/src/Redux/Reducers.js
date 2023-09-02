@@ -2,10 +2,13 @@ import {
   ALL_PRODUCT_REQUEST,
   ALL_PRODUCT_SUCCESS,
   ALL_PRODUCT_FAIL,
+  PRODUCT_DETAILS_REQUEST,
+  PRODUCT_DETAILS_SUCCESS,
+  PRODUCT_DETAILS_FAIL,
   ERROR_NULL,
 } from "./ActionType";
 
-const initialState = { products: [], loading: true };
+const initialState = { products: [], product: {}, loading: true };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -23,6 +26,24 @@ export const reducer = (state = initialState, action) => {
         productsCount: action.productsCount,
       };
     case ALL_PRODUCT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
+    case PRODUCT_DETAILS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        product: {},
+      };
+    case PRODUCT_DETAILS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        product: action.product,
+      };
+    case PRODUCT_DETAILS_FAIL:
       return {
         ...state,
         loading: false,

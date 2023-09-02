@@ -49,14 +49,13 @@ const Home = () => {
       draggable: true,
       progress: undefined,
       theme: "dark",
-    });
-  }
-
-  useEffect(() => {
-    getProducts();
-
+    }); 
     // Clearing Errors
     dispatchProducts(ERRORNULL());
+  } 
+  
+  useEffect(() => {
+    getProducts();
   }, []);
 
   return (
