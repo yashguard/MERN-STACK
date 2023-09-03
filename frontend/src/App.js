@@ -13,7 +13,7 @@ function App() {
     WebFont.load({
       google: { families: ["Roboto", "Droid Sans", "Chilanka"] },
     });
-  }, []);
+  }, [])
   return (
     <>
       <Header />
