@@ -26,6 +26,7 @@ const ProductDetails = () => {
   let [quantity, setQuantity] = useState(1);
 
   const getProductDetails = async () => {
+    dispatchProduct(PRODUCTDETAILSREQUEST());
     await axios
       .get(`http://localhost:8010/products/product/${params.id}`)
       .then((res) => {
@@ -149,10 +150,10 @@ const ProductDetails = () => {
                       Status:
                       <b
                         className={
-                          product.Stock < 1 ? "redColor" : "greenColor"
+                          product.stock < 1 ? "redColor" : "greenColor"
                         }
                       >
-                        {product.Stock < 1 ? "OutOfStock" : "InStock"}
+                        {product.stock < 1 ? "OutOfStock" : "InStock"}
                       </b>
                     </p>
                   </div>

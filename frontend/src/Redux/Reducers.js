@@ -8,7 +8,7 @@ import {
   ERROR_NULL,
 } from "./ActionType";
 
-const initialState = { products: [], product: {}, loading: true };
+const initialState = { products: [], product: {} };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {

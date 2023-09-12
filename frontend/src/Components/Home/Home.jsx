@@ -49,11 +49,11 @@ const Home = () => {
       draggable: true,
       progress: undefined,
       theme: "dark",
-    }); 
+    });
     // Clearing Errors
     dispatchProducts(ERRORNULL());
-  } 
-  
+  }
+
   useEffect(() => {
     getProducts();
   }, []);
