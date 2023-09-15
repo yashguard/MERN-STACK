@@ -70,8 +70,8 @@ const Products = () => {
           <Metadata title="PRODUCTS -- ECOMMERCE" />
           <div className="container" id="container">
             <div className="row justify-content-between align-items-center">
-              <div className="search col-xxl-2">
-                <input type="text" />
+              <div className="search row align-items-center col-xxl-2">
+                <input type="text" /><FaSearch />
               </div>
               <div className="head col-xxl-9">
                 <h2 className="heading">Products</h2>

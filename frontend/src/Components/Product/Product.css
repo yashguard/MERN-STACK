@@ -1,6 +1,14 @@
 .search input {
-    margin: 0 auto;
     padding: 5px 0 5px 20px;
+    border: 1px solid black;
+    outline: none;
+}
+
+.search svg {
+    padding: 5px 10px;
+    background-color: white;
+    border: 1px solid black;
+    border-left: none;
 }
 
 .icons a {
