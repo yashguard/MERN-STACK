@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ALLPRODUCTFAIL,
@@ -14,11 +14,12 @@ import Metadata from "../Layout/Metadata";
 import Product from "../Home/Product";
 import "./Product.css";
 import { FaSearch, FaCartArrowDown, FaUser } from "react-icons/fa";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Products = () => {
+  let [items, setItems] = useState([]);
   const location = useLocation();
-  const keyword = new URLSearchParams(location.search).get('keyword');
+  const keyword = new URLSearchParams(location.search).get("search");
   let dispatchProducts = useDispatch();
   let { products, loading, error } = useSelector((state) => state);
 
@@ -38,11 +39,23 @@ const Products = () => {
         .get(`http://localhost:8010/products`)
         .then((res) => {
           addProducts(res.data);
+          setItems(res.data.products);
         })
         .catch((err) => {
           catchErrors(err.message);
         });
     }
+  };
+
+  const addSearchProducts = async (search) => {
+    await axios
+      .get(`http://localhost:8010/products/?keyword=${search}`)
+      .then((res) => {
+        addProducts(res.data);
+      })
+      .catch((err) => {
+        catchErrors(err.message);
+      });
   };
 
   const addProducts = (data) => {
@@ -67,7 +80,6 @@ const Products = () => {
     // Clearing Errors
     dispatchProducts(ERRORNULL());
   }
-
   useEffect(() => {
     getProducts();
   }, []);
@@ -82,7 +94,10 @@ const Products = () => {
           <div className="container" id="container">
             <div className="row justify-content-between align-items-center">
               <div className="search row align-items-center col-xxl-2">
-                <input type="text" />
+                <input
+                  type="text"
+                  onChange={(e) => addSearchProducts(e.target.value)}
+                />
                 <FaSearch />
               </div>
               <div className="head col-xxl-9">

@@ -9,7 +9,7 @@ const Search = () => {
   const searchSubmitHandler = (e) => {
     e.preventDefault();
     if (keyword) {
-      nav(`/products?keyword=${keyword}`);
+      nav(`/products?search=${keyword}`);
     } else {
       nav(`/products`);
     }
