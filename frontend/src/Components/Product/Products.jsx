@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ALLPRODUCTFAIL,
@@ -14,48 +14,53 @@ import Metadata from "../Layout/Metadata";
 import Product from "../Home/Product";
 import "./Product.css";
 import { FaSearch, FaCartArrowDown, FaUser } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Products = () => {
-  let [items, setItems] = useState([]);
+  const nav = useNavigate();
   const location = useLocation();
   const keyword = new URLSearchParams(location.search).get("search");
   let dispatchProducts = useDispatch();
   let { products, loading, error } = useSelector((state) => state);
 
-  const getProducts = async () => {
-    dispatchProducts(ALLPRODUCTREQUEST());
-    if (keyword) {
-      await axios
-        .get(`http://localhost:8010/products/?keyword=${keyword}`)
-        .then((res) => {
-          addProducts(res.data);
-        })
-        .catch((err) => {
-          catchErrors(err.message);
-        });
-    } else {
-      await axios
-        .get(`http://localhost:8010/products`)
-        .then((res) => {
-          addProducts(res.data);
-          setItems(res.data.products);
-        })
-        .catch((err) => {
-          catchErrors(err.message);
-        });
-    }
-  };
-
-  const addSearchProducts = async (search) => {
+  const filterApi = async (keyword) => {
     await axios
-      .get(`http://localhost:8010/products/?keyword=${search}`)
+      .get(`http://localhost:8010/products/?keyword=${keyword}`)
       .then((res) => {
         addProducts(res.data);
       })
       .catch((err) => {
         catchErrors(err.message);
       });
+  };
+
+  const normalApi = async () => {
+    await axios
+      .get(`http://localhost:8010/products`)
+      .then((res) => {
+        addProducts(res.data);
+      })
+      .catch((err) => {
+        catchErrors(err.message);
+      });
+  };
+
+  const getProducts = async () => {
+    dispatchProducts(ALLPRODUCTREQUEST());
+    if (keyword) {
+      filterApi(keyword);
+    } else {
+      normalApi();
+    }
+  };
+
+  const addSearchProducts = async (search) => {
+    if (search === "") {
+      normalApi();
+      return nav(`/products`);
+    }
+    nav(`/products?search=${search}`);
+    filterApi(search);
   };
 
   const addProducts = (data) => {
