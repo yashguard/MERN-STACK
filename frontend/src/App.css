@@ -21,7 +21,7 @@
     --border-color-2: rgba(0, 0, 0, 0.205);
     --productCard-font-color: rgb(48, 48, 48);
     --span-reviews: rgba(0, 0, 0, 0.699);
-    --price-color : rgba(17, 17, 17, 0.795);
+    --price-color: rgba(17, 17, 17, 0.795);
 }
 
 /* ============================ 
@@ -70,18 +70,62 @@ a {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 input[type="number"] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 .greenColor {
-  color: green;
+    color: green;
 }
+
 .redColor {
-  color: red;
+    color: red;
+}
+
+.heading {
+    text-align: center;
+    font-family: Roboto;
+    font-size: 1.4vmax;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.171);
+    width: 20vmax;
+    padding: 1vmax;
+    margin: 5vmax auto;
+    color: var(--black-color);
+}
+
+/* ================================ 
+    Home & Product PAGE PRODUCTS
+ ================================ */
+
+.productCard {
+    color: var(--productCard-font-color);
+    margin: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.productCard img {
+    width: 100%;
+}
+
+.productCard .productDetails {
+    padding: 0 10px 10px;
+}
+
+.productCard p {
+    font: 500 18px "Roboto";
+}
+
+.productCard .ratings {
+    margin: 0 0 15px;
+}
+
+.productCard:hover {
+    box-shadow: 0 0 5px var(--border-color);
+    transform: translateY(-1vmax);
 }

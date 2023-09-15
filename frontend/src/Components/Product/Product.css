@@ -1,0 +1,12 @@
+.search input {
+    margin: 0 auto;
+    padding: 5px 0 5px 20px;
+}
+
+.icons a {
+    color: var(--black-color);
+}
+
+.icons svg {
+    cursor: pointer;
+}

@@ -7,6 +7,7 @@ import Footer from "./Components/Layout/Footer/Footer";
 import Home from "./Components/Home/Home.jsx";
 import ProductDetails from "./Components/Product/ProductDetails.jsx";
 import { Route, Routes } from "react-router-dom";
+import Products from "./Components/Product/Products";
 
 function App() {
   useEffect(() => {
@@ -20,6 +21,7 @@ function App() {
       <Routes>
         <Route extact path="/" Component={Home} />
         <Route extact path="/product/:id" Component={ProductDetails} />
+        <Route extact path="/products" Component={Products} />
       </Routes>
       <Footer />
     </>
