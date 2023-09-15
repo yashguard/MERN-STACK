@@ -15,15 +15,15 @@ function App() {
     WebFont.load({
       google: { families: ["Roboto", "Droid Sans", "Chilanka"] },
     });
-  }, [])
+  }, []);
   return (
     <>
       <Header />
       <Routes>
-        <Route extact path="/" Component={Home} />
-        <Route extact path="/product/:id" Component={ProductDetails} />
-        <Route extact path="/products" Component={Products} />
-        <Route extact path="/search" Component={Search} />
+        <Route exact path="/" Component={Home} />
+        <Route exact path="/product/:id" Component={ProductDetails} />
+        <Route exact path="/products" Component={Products} />
+        <Route exact path="/search" Component={Search} />
       </Routes>
       <Footer />
     </>

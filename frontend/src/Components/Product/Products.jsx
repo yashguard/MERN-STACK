@@ -12,24 +12,37 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Metadata from "../Layout/Metadata";
 import Product from "../Home/Product";
-import "./Product.css"
+import "./Product.css";
 import { FaSearch, FaCartArrowDown, FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 const Products = () => {
+  const location = useLocation();
+  const keyword = new URLSearchParams(location.search).get('keyword');
   let dispatchProducts = useDispatch();
   let { products, loading, error } = useSelector((state) => state);
 
   const getProducts = async () => {
     dispatchProducts(ALLPRODUCTREQUEST());
-    await axios
-      .get("http://localhost:8010/products")
-      .then((res) => {
-        addProducts(res.data);
-      })
-      .catch((err) => {
-        catchErrors(err.message);
-      });
+    if (keyword) {
+      await axios
+        .get(`http://localhost:8010/products/?keyword=${keyword}`)
+        .then((res) => {
+          addProducts(res.data);
+        })
+        .catch((err) => {
+          catchErrors(err.message);
+        });
+    } else {
+      await axios
+        .get(`http://localhost:8010/products`)
+        .then((res) => {
+          addProducts(res.data);
+        })
+        .catch((err) => {
+          catchErrors(err.message);
+        });
+    }
   };
 
   const addProducts = (data) => {
@@ -56,9 +69,7 @@ const Products = () => {
   }
 
   useEffect(() => {
-    if (products.length < 1) {
-      getProducts();
-    }
+    getProducts();
   }, []);
 
   return (
@@ -71,15 +82,22 @@ const Products = () => {
           <div className="container" id="container">
             <div className="row justify-content-between align-items-center">
               <div className="search row align-items-center col-xxl-2">
-                <input type="text" /><FaSearch />
+                <input type="text" />
+                <FaSearch />
               </div>
               <div className="head col-xxl-9">
                 <h2 className="heading">Products</h2>
               </div>
               <div className="icons col-xxl-1 row justify-content-between align-items-center">
-                <Link to="/search"><FaSearch /></Link>
-                <Link to="/cart"><FaCartArrowDown /></Link>
-                <Link to="/profile"><FaUser /></Link>
+                <Link to="/search">
+                  <FaSearch />
+                </Link>
+                <Link to="/cart">
+                  <FaCartArrowDown />
+                </Link>
+                <Link to="/profile">
+                  <FaUser />
+                </Link>
               </div>
             </div>
 
