@@ -18,7 +18,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ReviewCard from "./ReviewCard";
 import "./ProductDetails.css";
-import { getProductDetails } from "../../actions/productActions";
+import { clearErrors, getProductDetails } from "../../actions/productActions";
 
 const ProductDetails = () => {
   let dispatch = useDispatch();
@@ -51,6 +51,8 @@ const ProductDetails = () => {
       progress: undefined,
       theme: "dark",
     });
+
+    dispatch(clearErrors());
   }
 
   const settings = {

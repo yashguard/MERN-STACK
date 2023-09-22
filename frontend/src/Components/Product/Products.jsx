@@ -16,6 +16,7 @@ import "./Product.css";
 import { FaSearch, FaCartArrowDown, FaUser } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import Pagination from "react-js-pagination";
+import { clearErrors, getProducts } from "../../actions/productActions";
 
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,88 +24,13 @@ const Products = () => {
   const URL = new URLSearchParams(location.search);
   const search = URL.get("search");
   const page = URL.get("page");
-  let dispatchProducts = useDispatch();
+  let dispatch = useDispatch();
   let { products, loading, error, countProduct, displayProducts } = useSelector(
-    (state) => state
+    (state) => state.products
   );
-  
-  const filterApi = async (q1, q2) => {
-    await axios
-      .get(`http://localhost:8010/products?keyword=${q1}&page=${q2}`)
-      .then((res) => {
-        addProducts(res.data);
-      })
-      .catch((err) => {
-        catchErrors(err.message);
-      });
-  };
-
-  const normalApi = async () => {
-    await axios
-      .get(`http://localhost:8010/products`)
-      .then((res) => {
-        addProducts(res.data);
-      })
-      .catch((err) => {
-        catchErrors(err.message);
-      });
-  };
-
-  const getProducts = async () => {
-    dispatchProducts(ALLPRODUCTREQUEST());
-    if (search) {
-      filterApi();
-    } else {
-      normalApi();
-    }
-  };
-
-  const addSearchProducts = async (search) => {
-    if (search === "") {
-      await axios
-        .get(`http://localhost:8010/products`)
-        .then((res) => {
-          addProducts(res.data);
-        })
-        .catch((err) => {
-          catchErrors(err.message);
-        });
-      return URL.append("search", "");
-    }
-    URL.append("search", "search.toString()");
-    await axios
-      .get(`http://localhost:8010/products?keyword=${search}`)
-      .then((res) => {
-        addProducts(res.data);
-      })
-      .catch((err) => {
-        catchErrors(err.message);
-      });
-  };
-
-  const addProducts = (data) => {
-    const datas = {
-      products: data.products,
-      countProduct: data.countProduct,
-      displayProducts: data.displayProducts,
-    };
-    dispatchProducts(ALLPRODUCTSUCCESS(datas));
-  };
-
-  const catchErrors = (err) => {
-    dispatchProducts(ALLPRODUCTFAIL(err));
-  };
 
   const setCurrentPageNo = async (e) => {
     setCurrentPage(e);
-    await axios
-      .get(`http://localhost:8010/products?page=${e}`)
-      .then((res) => {
-        addProducts(res.data);
-      })
-      .catch((err) => {
-        catchErrors(err.message);
-      });
   };
 
   if (error) {
@@ -118,12 +44,12 @@ const Products = () => {
       progress: undefined,
       theme: "dark",
     });
-    // Clearing Errors
-    dispatchProducts(ERRORNULL());
+
+    dispatch(clearErrors());
   }
 
   useEffect(() => {
-    getProducts();
+    dispatch(getProducts());
   }, []);
   return (
     <Fragment>
@@ -137,7 +63,7 @@ const Products = () => {
               <div className="search row align-items-center col-xxl-2">
                 <input
                   type="text"
-                  onChange={(e) => addSearchProducts(e.target.value)}
+                  // onChange={(e) => addSearchProducts(e.target.value)}
                 />
                 <FaSearch />
               </div>

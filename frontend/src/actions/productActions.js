@@ -33,8 +33,6 @@ export const getProductDetails = (id) => async (dispatch) => {
 
     const { data } = await axios.get(`http://localhost:8010/products/product/${id}`);
 
-    console.log(data)
-
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
       product: data.getProduct,
