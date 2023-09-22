@@ -14,30 +14,11 @@ import {
 import Loader from "../Layout/Loader/Loader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { clearErrors, getProducts } from "../../actions/productActions";
 
 const Home = () => {
-  let dispatchProducts = useDispatch();
-  let { products, loading, error } = useSelector((state) => state);
-
-  const getProducts = async () => {
-    dispatchProducts(ALLPRODUCTREQUEST());
-    await axios
-      .get("http://localhost:8010/products")
-      .then((res) => {
-        addProducts(res.data.products);
-      })
-      .catch((err) => {
-        catchErrors(err.message);
-      });
-  };
-
-  const addProducts = (products) => {
-    dispatchProducts(ALLPRODUCTSUCCESS(products));
-  };
-
-  const catchErrors = (err) => {
-    dispatchProducts(ALLPRODUCTFAIL(err));
-  };
+  let dispatch = useDispatch();
+  let { products, loading, error } = useSelector((state) => state.products);
 
   if (error) {
     toast.error(error, {
@@ -50,15 +31,12 @@ const Home = () => {
       progress: undefined,
       theme: "dark",
     });
-    // Clearing Errors
-    dispatchProducts(ERRORNULL());
+    dispatch(clearErrors());
   }
 
   useEffect(() => {
-    if (products.length < 1) {
-      getProducts();
-    }
-  }, []);
+    dispatch(getProducts());
+  }, [dispatch, error]);
 
   return (
     <Fragment>

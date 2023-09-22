@@ -12,8 +12,8 @@ export const ALLPRODUCTREQUEST = () => {
   return { type: ALL_PRODUCT_REQUEST };
 };
 
-export const ALLPRODUCTSUCCESS = (products, productsCount) => {
-  return { type: ALL_PRODUCT_SUCCESS, products, productsCount };
+export const ALLPRODUCTSUCCESS = (payload) => {
+  return { type: ALL_PRODUCT_SUCCESS, payload };
 };
 
 export const ALLPRODUCTFAIL = (error) => {

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ALLPRODUCTFAIL,
@@ -14,18 +14,23 @@ import Metadata from "../Layout/Metadata";
 import Product from "../Home/Product";
 import "./Product.css";
 import { FaSearch, FaCartArrowDown, FaUser } from "react-icons/fa";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import Pagination from "react-js-pagination";
 
 const Products = () => {
-  const nav = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
-  const keyword = new URLSearchParams(location.search).get("search");
+  const URL = new URLSearchParams(location.search);
+  const search = URL.get("search");
+  const page = URL.get("page");
   let dispatchProducts = useDispatch();
-  let { products, loading, error } = useSelector((state) => state);
-
-  const filterApi = async (keyword) => {
+  let { products, loading, error, countProduct, displayProducts } = useSelector(
+    (state) => state
+  );
+  
+  const filterApi = async (q1, q2) => {
     await axios
-      .get(`http://localhost:8010/products/?keyword=${keyword}`)
+      .get(`http://localhost:8010/products?keyword=${q1}&page=${q2}`)
       .then((res) => {
         addProducts(res.data);
       })
@@ -47,8 +52,8 @@ const Products = () => {
 
   const getProducts = async () => {
     dispatchProducts(ALLPRODUCTREQUEST());
-    if (keyword) {
-      filterApi(keyword);
+    if (search) {
+      filterApi();
     } else {
       normalApi();
     }
@@ -56,19 +61,50 @@ const Products = () => {
 
   const addSearchProducts = async (search) => {
     if (search === "") {
-      normalApi();
-      return nav(`/products`);
+      await axios
+        .get(`http://localhost:8010/products`)
+        .then((res) => {
+          addProducts(res.data);
+        })
+        .catch((err) => {
+          catchErrors(err.message);
+        });
+      return URL.append("search", "");
     }
-    nav(`/products?search=${search}`);
-    filterApi(search);
+    URL.append("search", "search.toString()");
+    await axios
+      .get(`http://localhost:8010/products?keyword=${search}`)
+      .then((res) => {
+        addProducts(res.data);
+      })
+      .catch((err) => {
+        catchErrors(err.message);
+      });
   };
 
   const addProducts = (data) => {
-    dispatchProducts(ALLPRODUCTSUCCESS(data.products, data.countProduct));
+    const datas = {
+      products: data.products,
+      countProduct: data.countProduct,
+      displayProducts: data.displayProducts,
+    };
+    dispatchProducts(ALLPRODUCTSUCCESS(datas));
   };
 
   const catchErrors = (err) => {
     dispatchProducts(ALLPRODUCTFAIL(err));
+  };
+
+  const setCurrentPageNo = async (e) => {
+    setCurrentPage(e);
+    await axios
+      .get(`http://localhost:8010/products?page=${e}`)
+      .then((res) => {
+        addProducts(res.data);
+      })
+      .catch((err) => {
+        catchErrors(err.message);
+      });
   };
 
   if (error) {
@@ -85,10 +121,10 @@ const Products = () => {
     // Clearing Errors
     dispatchProducts(ERRORNULL());
   }
+
   useEffect(() => {
     getProducts();
   }, []);
-
   return (
     <Fragment>
       {loading ? (
@@ -126,64 +162,25 @@ const Products = () => {
                 <Product key={product._id} {...product} />
               ))}
           </div>
+
           <ToastContainer />
 
-          {/* <div className="filterBox">
-            <Typography>Price</Typography>
-            <Slider
-              value={price}
-              onChange={priceHandler}
-              valueLabelDisplay="auto"
-              aria-labelledby="range-slider"
-              min={0}
-              max={25000}
+          <div className="paginationBox">
+            <Pagination
+              activePage={currentPage}
+              itemsCountPerPage={displayProducts}
+              totalItemsCount={Number(countProduct)}
+              onChange={setCurrentPageNo}
+              nextPageText="Next"
+              prevPageText="Prev"
+              firstPageText="1st"
+              lastPageText="Last"
+              itemClass="page-item"
+              linkClass="page-link"
+              activeClass="pageItemActive"
+              activeLinkClass="pageLinkActive"
             />
-
-            <Typography>Categories</Typography>
-            <ul className="categoryBox">
-              {categories.map((category) => (
-                <li
-                  className="category-link"
-                  key={category}
-                  onClick={() => setCategory(category)}
-                >
-                  {category}
-                </li>
-              ))}
-            </ul>
-
-            <fieldset>
-              <Typography component="legend">Ratings Above</Typography>
-              <Slider
-                value={ratings}
-                onChange={(e, newRating) => {
-                  setRatings(newRating);
-                }}
-                aria-labelledby="continuous-slider"
-                valueLabelDisplay="auto"
-                min={0}
-                max={5}
-              />
-            </fieldset>
           </div>
-          {resultPerPage < count && (
-            <div className="paginationBox">
-              <Pagination
-                activePage={currentPage}
-                itemsCountPerPage={resultPerPage}
-                totalItemsCount={productsCount}
-                onChange={setCurrentPageNo}
-                nextPageText="Next"
-                prevPageText="Prev"
-                firstPageText="1st"
-                lastPageText="Last"
-                itemClass="page-item"
-                linkClass="page-link"
-                activeClass="pageItemActive"
-                activeLinkClass="pageLinkActive"
-              />
-            </div>
-          )} */}
         </Fragment>
       )}
     </Fragment>

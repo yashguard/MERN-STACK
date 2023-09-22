@@ -19,7 +19,7 @@ const getProducts = catchAsyncError(async (req, res) => {
     .filter()
     .paginations(displayProducts);
   let products = await apiFeatures.query;
-  res.status(200).json({ success: true, countProduct, products });
+  res.status(200).json({ success: true, countProduct, products, displayProducts });
 });
 
 // Update Product ==> Admin

@@ -18,24 +18,15 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ReviewCard from "./ReviewCard";
 import "./ProductDetails.css";
+import { getProductDetails } from "../../actions/productActions";
 
 const ProductDetails = () => {
-  let dispatchProduct = useDispatch();
-  let { product, loading, error } = useSelector((state) => state);
-  let params = useParams();
+  let dispatch = useDispatch();
+  let { product, loading, error } = useSelector(
+    (state) => state.productDetails
+  );
+  const params = useParams();
   let [quantity, setQuantity] = useState(1);
-
-  const getProductDetails = async () => {
-    dispatchProduct(PRODUCTDETAILSREQUEST());
-    await axios
-      .get(`http://localhost:8010/products/product/${params.id}`)
-      .then((res) => {
-        getProduct(res.data.getProduct);
-      })
-      .catch((err) => {
-        catchErrors(err.message);
-      });
-  };
 
   const increaseQuantity = () => {
     if (product.Stock <= quantity) return;
@@ -49,14 +40,6 @@ const ProductDetails = () => {
     setQuantity(qty);
   };
 
-  const getProduct = (product) => {
-    dispatchProduct(PRODUCTDETAILSSUCCESS(product));
-  };
-
-  const catchErrors = (err) => {
-    dispatchProduct(PRODUCTDETAILSFAIL(err));
-  };
-
   if (error) {
     toast.error(error, {
       position: "bottom-center",
@@ -68,8 +51,6 @@ const ProductDetails = () => {
       progress: undefined,
       theme: "dark",
     });
-    // Clearing Errors
-    dispatchProduct(ERRORNULL());
   }
 
   const settings = {
@@ -93,8 +74,8 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
-    getProductDetails();
-  }, []);
+    dispatch(getProductDetails(params.id));
+  }, [dispatch, params.id]);
 
   return (
     <Fragment>
