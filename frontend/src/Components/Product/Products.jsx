@@ -79,22 +79,24 @@ const Products = () => {
 
           <ToastContainer />
 
-          <div className="paginationBox">
-            <Pagination
-              activePage={currentPage}
-              itemsCountPerPage={displayProducts}
-              totalItemsCount={Number(countProduct)}
-              onChange={setCurrentPageNo}
-              nextPageText="Next"
-              prevPageText="Prev"
-              firstPageText="1st"
-              lastPageText="Last"
-              itemClass="page-item"
-              linkClass="page-link"
-              activeClass="pageItemActive"
-              activeLinkClass="pageLinkActive"
-            />
-          </div>
+          {displayProducts < countProduct && (
+            <div className="paginationBox">
+              <Pagination
+                activePage={currentPage}
+                itemsCountPerPage={displayProducts}
+                totalItemsCount={Number(countProduct)}
+                onChange={setCurrentPageNo}
+                nextPageText="Next"
+                prevPageText="Prev"
+                firstPageText="1st"
+                lastPageText="Last"
+                itemClass="page-item"
+                linkClass="page-link"
+                activeClass="pageItemActive"
+                activeLinkClass="pageLinkActive"
+              />
+            </div>
+          )}
         </div>
       )}
     </Fragment>
