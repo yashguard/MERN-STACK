@@ -1,10 +1,10 @@
 import React from "react";
 import Helmet from "react-helmet";
 
-const Metadata = ({ title }) => {
+const Metadata = (props) => {
   return (
     <Helmet>
-      <title>{title}</title>
+      <title>{props.title}</title>
     </Helmet>
   );
 };

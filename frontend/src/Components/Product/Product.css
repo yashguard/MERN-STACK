@@ -1,13 +1,13 @@
 .search input {
     padding: 5px 0 5px 20px;
-    border: 1px solid black;
+    border: 1px solid var(--black-color);
     outline: none;
 }
 
 .search svg {
     padding: 5px 10px;
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid var(--black-color);
     border-left: none;
 }
 
@@ -24,7 +24,7 @@
 .paginationBox {
     display: flex;
     justify-content: center;
-    margin: 6vmax;
+    margin-top: 6vmax;
 }
 
 .pagination {
@@ -66,9 +66,9 @@
 }
 
 .pageItemActive {
-    background-color: tomato;
+    background-color: var(--main-color);
 }
 
 .pageLinkActive {
-    color: white;
+    color: var(--white-color);
 }

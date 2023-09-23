@@ -1,12 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ALLPRODUCTFAIL,
-  ALLPRODUCTREQUEST,
-  ALLPRODUCTSUCCESS,
-  ERRORNULL,
-} from "../../Redux/Actions";
-import axios from "axios";
 import Loader from "../Layout/Loader/Loader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,7 +16,7 @@ const Products = () => {
   const location = useLocation();
   const URL = new URLSearchParams(location.search);
   const search = URL.get("search");
-  const page = URL.get("page");
+  const page = URL.get("search");
   let dispatch = useDispatch();
   let { products, loading, error, countProduct, displayProducts } = useSelector(
     (state) => state.products
@@ -49,24 +42,19 @@ const Products = () => {
   }
 
   useEffect(() => {
-    dispatch(getProducts());
-  }, []);
+    if (search) dispatch(getProducts(search, currentPage));
+    else dispatch(getProducts("", currentPage));
+  }, [dispatch, search, currentPage]);
   return (
     <Fragment>
       {loading ? (
         <Loader />
       ) : (
-        <Fragment>
+        <div className="products-section">
           <Metadata title="PRODUCTS -- ECOMMERCE" />
-          <div className="container" id="container">
+          <div className="container tHeight" id="container">
             <div className="row justify-content-between align-items-center">
-              <div className="search row align-items-center col-xxl-2">
-                <input
-                  type="text"
-                  // onChange={(e) => addSearchProducts(e.target.value)}
-                />
-                <FaSearch />
-              </div>
+              <div className="search row align-items-center col-xxl-2"></div>
               <div className="head col-xxl-9">
                 <h2 className="heading">Products</h2>
               </div>
@@ -107,7 +95,7 @@ const Products = () => {
               activeLinkClass="pageLinkActive"
             />
           </div>
-        </Fragment>
+        </div>
       )}
     </Fragment>
   );

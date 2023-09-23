@@ -1,12 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ERRORNULL,
-  PRODUCTDETAILSFAIL,
-  PRODUCTDETAILSREQUEST,
-  PRODUCTDETAILSSUCCESS,
-} from "../../Redux/Actions";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import Metadata from "../Layout/Metadata";
 import Loader from "../Layout/Loader/Loader";

@@ -9,11 +9,11 @@ import {
   ERROR_NULL,
 } from "../constants/productConstants";
 
-export const getProducts = () => async (dispatch) => {
+export const getProducts = (search = "", page = 1) => async (dispatch) => {
   try {
     dispatch({ type: ALL_PRODUCT_REQUEST });
 
-    const { data } = await axios.get(`http://localhost:8010/products`);
+    const { data } = await axios.get(`http://localhost:8010/products?keyword=${search}&page=${page}`);
 
     dispatch({
       type: ALL_PRODUCT_SUCCESS,

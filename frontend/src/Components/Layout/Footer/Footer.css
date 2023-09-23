@@ -3,7 +3,6 @@
   ================================ */
 
 footer {
-    margin-top: 10vmax;
     background-color: var(--footer-color);
     color: var(--white-color);
     padding: 50px;
