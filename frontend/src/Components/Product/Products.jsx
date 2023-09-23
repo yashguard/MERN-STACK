@@ -10,13 +10,15 @@ import { FaSearch, FaCartArrowDown, FaUser } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import { clearErrors, getProducts } from "../../actions/productActions";
+import Slider from "@mui/material/Slider";
+import { Typography } from "@mui/material";
 
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [price, setPrice] = useState([0, 25000]);
   const location = useLocation();
   const URL = new URLSearchParams(location.search);
   const search = URL.get("search");
-  const page = URL.get("search");
   let dispatch = useDispatch();
   let { products, loading, error, countProduct, displayProducts } = useSelector(
     (state) => state.products
@@ -41,10 +43,14 @@ const Products = () => {
     dispatch(clearErrors());
   }
 
+  const priceHandler = (event, newPrice) => {
+    setPrice(newPrice);
+  };
+
   useEffect(() => {
-    if (search) dispatch(getProducts(search, currentPage));
-    else dispatch(getProducts("", currentPage));
-  }, [dispatch, search, currentPage]);
+    if (search) dispatch(getProducts(search, currentPage, price));
+    else dispatch(getProducts("", currentPage, price));
+  }, [dispatch, search, currentPage, price]);
   return (
     <Fragment>
       {loading ? (
@@ -78,6 +84,18 @@ const Products = () => {
           </div>
 
           <ToastContainer />
+
+          <div className="filterBox">
+            <Typography>Price</Typography>
+            <Slider
+              value={price}
+              onChange={priceHandler}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={0}
+              max={25000}
+            />
+          </div>
 
           {displayProducts < countProduct && (
             <div className="paginationBox">
