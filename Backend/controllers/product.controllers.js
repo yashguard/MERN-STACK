@@ -8,7 +8,7 @@ const createProduct = catchAsyncError(async (req, res) => {
   req.body.user = req.User._id;
   let getProduct = await product.create(req.body);
   res.status(200).json({ success: true, getProduct });
-})
+});
 
 // Get Products ==> User
 const getProducts = catchAsyncError(async (req, res) => {
@@ -19,7 +19,16 @@ const getProducts = catchAsyncError(async (req, res) => {
     .filter()
     .paginations(displayProducts);
   let products = await apiFeatures.query;
-  res.status(200).json({ success: true, countProduct, products, displayProducts });
+
+  let filteredProductsCount = products.length;
+
+  res.status(200).json({
+    success: true,
+    countProduct,
+    products,
+    displayProducts,
+    filteredProductsCount,
+  });
 });
 
 // Update Product ==> Admin

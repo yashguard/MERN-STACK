@@ -20,9 +20,14 @@ const Products = () => {
   const URL = new URLSearchParams(location.search);
   const search = URL.get("search");
   let dispatch = useDispatch();
-  let { products, loading, error, countProduct, displayProducts } = useSelector(
-    (state) => state.products
-  );
+  let {
+    products,
+    loading,
+    error,
+    countProduct,
+    displayProducts,
+    filteredProductsCount,
+  } = useSelector((state) => state.products);
 
   const setCurrentPageNo = async (e) => {
     setCurrentPage(e);
@@ -46,6 +51,8 @@ const Products = () => {
   const priceHandler = (event, newPrice) => {
     setPrice(newPrice);
   };
+
+  const count = filteredProductsCount;
 
   useEffect(() => {
     if (search) dispatch(getProducts(search, currentPage, price));
